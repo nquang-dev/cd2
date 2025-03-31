@@ -1,0 +1,25 @@
+# Cấu hình dự án
+project:
+  name: "Traffic Sign Detection - 40km/h"
+  description: "Nhận diện biển báo hạn chế tốc độ 40km/h"
+
+# Cấu hình dữ liệu
+data:
+  raw_data_dir: "../data/raw"
+  processed_data_dir: "../data/processed"
+  augmented_data_dir: "../data/augmented"
+  train_ratio: 0.7
+  val_ratio: 0.15
+  test_ratio: 0.15
+  img_size: [224, 224]
+
+# Cấu hình mô hình
+model:
+  input_shape: [224, 224, 3]
+  learning_rate: 0.0001
+  batch_size: 32
+  epochs: 50
+  model_save_dir: "../models/saved_models"
+  checkpoint_dir: "../models/checkpoints"
+  model_name: "traffic_sign_40km_model.h5"
+  tflite_model_name: "traffic_sign_40km_model.tflite"

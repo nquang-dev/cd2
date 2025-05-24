@@ -33,7 +33,7 @@ def train_model(train_dir, val_dir, model_save_dir, checkpoint_dir, batch_size=3
         target_size=img_size,
         batch_size=batch_size,
         class_mode='binary',
-        classes=['non40km', '40km']  # Đảm bảo thứ tự đúng: 0=non40km, 1=40km
+        classes=['non40km', '40km']  #0=non40km, 1=40km
     )
     
     validation_generator = val_datagen.flow_from_directory(

@@ -36,29 +36,29 @@ def create_model(input_shape=(224, 224, 3), learning_rate=0.0001):
     
     return model
 
-def create_custom_model(input_shape=(224, 224, 3)):
-    """
-    Tạo mô hình CNN tùy chỉnh nhỏ hơn (phù hợp với Raspberry Pi)
-    """
-    model = Sequential([
-        # Block 1
-        Conv2D(16, (3, 3), padding='same', activation='relu', input_shape=input_shape),
-        MaxPooling2D((2, 2)),
+# def create_custom_model(input_shape=(224, 224, 3)):
+#     """
+#     Tạo mô hình CNN tùy chỉnh nhỏ hơn (phù hợp với Raspberry Pi)
+#     """
+#     model = Sequential([
+#         # Block 1
+#         Conv2D(16, (3, 3), padding='same', activation='relu', input_shape=input_shape),
+#         MaxPooling2D((2, 2)),
         
-        # Block 2
-        Conv2D(32, (3, 3), padding='same', activation='relu'),
-        MaxPooling2D((2, 2)),
+#         # Block 2
+#         Conv2D(32, (3, 3), padding='same', activation='relu'),
+#         MaxPooling2D((2, 2)),
         
-        # Block 3
-        Conv2D(64, (3, 3), padding='same', activation='relu'),
-        MaxPooling2D((2, 2)),
+#         # Block 3
+#         Conv2D(64, (3, 3), padding='same', activation='relu'),
+#         MaxPooling2D((2, 2)),
         
-        # Classification block
-        Flatten(),
-        Dense(128, activation='relu'),
-        Dropout(0.5),
-        Dense(1, activation='sigmoid')
-    ])
+#         # Classification block
+#         Flatten(),
+#         Dense(128, activation='relu'),
+#         Dropout(0.5),
+#         Dense(1, activation='sigmoid')
+#     ])
     
     model.compile(
         optimizer='adam',

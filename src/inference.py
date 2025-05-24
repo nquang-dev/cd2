@@ -134,7 +134,7 @@ def run_detection_on_directory(model_path, image_dir):
 
 if __name__ == "__main__":
     model_path = "../models/saved_models/traffic_sign_40km_model.tflite"
-    image_dir = "../data/processed/test/40km"
+    image_dir = "../data/processed/test/40km"   
     
     # Sử dụng hàm xử lý thư mục thay vì một ảnh đơn lẻ
     run_detection_on_directory(model_path, image_dir)

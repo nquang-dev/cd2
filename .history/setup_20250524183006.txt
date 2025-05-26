@@ -1,0 +1,6 @@
+nmap -sn 192.168.1.0/24  | ping raspberrypi
+
+
+ssh pi@<IP_ADDRESS>
+
+trong raspi: sudo raspi-config

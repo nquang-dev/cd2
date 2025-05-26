@@ -1,0 +1,20 @@
+nmap -sn 192.168.1.0/24  | ping raspberrypi
+
+
+ssh pi@<IP_ADDRESS>
+
+trong raspi: sudo raspi-config
+
+sudo apt update
+sudo apt upgrade
+
+sudo apt install python3 python3-pip
+
+pip3 install opencv-python-headless
+pip3 install numpy
+pip3 install tflite-runtime
+
+sudo apt install python3-libcamera
+pip3 install picamera2
+
+Kiểm tra camera Picamera2:

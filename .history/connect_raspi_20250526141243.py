@@ -2,10 +2,10 @@ import cv2
 import numpy as np
 import time
 from picamera2 import Picamera2
-from tensorflow.keras.models import load_model
+import tflite_runtime.interpreter as tflite
 import serial
 
-# Đường dẫn đến mô hình HDF5
+# Đường dẫn đến mô hình TFLite
 MODEL_PATH = "/home/pi/traffic_sign_detection/models/saved_models/traffic_sign_40km_model.h5"
 
 # Kích thước ảnh đầu vào của mô hình
@@ -17,9 +17,10 @@ LABELS = ["non40km", "40km"]
 # Kết nối Serial với Arduino
 ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
 
-def load_keras_model(model_path):
-    model = load_model(model_path)
-    return model
+def load_tflite_model(model_path):
+    interpreter = tflite.Interpreter(model_path=model_path)
+    interpreter.allocate_tensors()
+    return interpreter
 
 def preprocess_image(image, input_size):
     image = cv2.resize(image, input_size)
@@ -28,12 +29,16 @@ def preprocess_image(image, input_size):
     image = np.expand_dims(image, axis=0).astype(np.float32)
     return image
 
-def predict(model, image):
-    predictions = model.predict(image)
-    return predictions
+def predict(interpreter, image):
+    input_details = interpreter.get_input_details()
+    output_details = interpreter.get_output_details()
+    interpreter.set_tensor(input_details[0]['index'], image)
+    interpreter.invoke()
+    output_data = interpreter.get_tensor(output_details[0]['index'])
+    return output_data
 
 def main():
-    model = load_keras_model(MODEL_PATH)
+    interpreter = load_tflite_model(MODEL_PATH)
     picam2 = Picamera2()
     picam2.configure(picam2.create_preview_configuration(main={"size": (640, 480)}))
     picam2.start()
@@ -42,7 +47,7 @@ def main():
         start_time = time.time()
         frame = picam2.capture_array()
         processed_image = preprocess_image(frame, INPUT_SIZE)
-        predictions = predict(model, processed_image)
+        predictions = predict(interpreter, processed_image)
         confidence = predictions[0][0]
         predicted_class = 1 if confidence > 0.5 else 0
         processing_time = time.time() - start_time
